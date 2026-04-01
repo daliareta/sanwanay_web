@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Sanwanay Network - Internet Fiber Optic Cepat & WiFi Murah Rajeg Tangerang</title>
+    <meta name="description" content="Sanwanay Network: Provider internet fiber optic nomor #1 di Rajeg & Jambu Karya. WiFi murah, stabil, tanpa FUP, dan teknisi standby 24 jam. Daftar sekarang!">
+    <meta name="keywords" content="sanwanay network, wifi rajeg, isp tangerang, internet murah rajeg, pasang wifi tangerang, wifi jambu karya, provider internet kabupaten tangerang">
+    <meta name="author" content="Sanwanay Network">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link rel="canonical" href="https://sanwanay.my.id/" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sanwanay.my.id/">
+    <meta property="og:title" content="Sanwanay Network | WiFi Cepat di Kabupaten Tangerang">
+    <meta property="og:description" content="Provider internet stabil khusus wilayah Rajeg dan sekitarnya. Daftar sekarang untuk harga promo!">
+    <meta property="og:image" content="https://sanwanay.my.id/images/logo.png">
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Sanwanay Network",
+  "image": "https://sanwanay.my.id/images/logo.png",
+  "@id": "https://sanwanay.my.id/",
+  "url": "https://sanwanay.my.id/",
+  "telephone": "+6289560195444",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Jl. H.Enung Kp.Jambu Karya RT.07/ RW. 01, Ds. Jambu Karya Kec.Rajeg",
+    "addressLocality": "Rajeg",
+    "addressRegion": "Kabupaten Tangerang",
+    "postalCode": "15540",
+    "addressCountry": "ID"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -6.128528, 
+    "longitude": 106.463611
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "opens": "08:00",
+    "closes": "17:00"
+  },
+  "sameAs": [
+    "https://www.facebook.com/mohamadsanwanay",
+    "https://www.instagram.com/sanwanaynetwork"
+  ]
+}
+</script>
+   
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body class="bg-slate-50">
+    <nav class="bg-blue-900 p-4 text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            
+            <a href="/" class="flex items-center space-x-3 group">
+                <div class="relative">
+                    <img src="/images/logo.png" alt="Logo Sanwanay Network ISP Kabupaten Tangerang" 
+                         class="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover border-2 border-yellow-400 group-hover:scale-110 transition duration-300">
+                    <span class="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-blue-900 rounded-full"></span>
+                </div>
+                <div class="flex flex-col leading-none">
+                    <span class="text-lg md:text-xl font-black italic text-yellow-400 tracking-tight">SANWANAY</span>
+                    <span class="text-[8px] md:text-[10px] tracking-[0.3em] font-bold text-white uppercase opacity-80">Network</span>
+                </div>
+            </a>
+
+            <ul class="hidden md:flex space-x-6 font-semibold items-center text-xs uppercase tracking-wider">
+                <li><a href="/" class="hover:text-yellow-400 transition">Beranda</a></li>
+                <li><a href="/paket" class="hover:text-yellow-400 transition">Paket</a></li>
+                <li><a href="/jangkauan" class="hover:text-yellow-400 transition">Jangkauan</a></li>
+                <li><a href="/kegiatan" class="hover:text-yellow-400 transition">Kegiatan</a></li>
+                <li><a href="/about" class="hover:text-yellow-400 transition">Tentang</a></li> 
+                <li>
+                    <a href="/daftar" class="bg-yellow-400 text-blue-900 px-5 py-2 rounded-full font-black hover:bg-white transition shadow-md">
+                        Daftar
+                    </a>
+                </li>
+                
+                <li>
+                    <% if (locals.isAdmin) { %>
+                        <div class="flex items-center gap-2">
+                            <a href="/admin-dashboard" class="border border-yellow-400 text-yellow-400 px-3 py-1 rounded-lg font-bold hover:bg-yellow-400 hover:text-blue-900 transition text-[10px]">
+                                DASHBOARD
+                            </a>
+                            <a href="/logout" onclick="return confirm('Logout?')" class="text-red-400 hover:text-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                            </a>
+                        </div>
+                    <% } else { %>
+                        <a href="/login" class="opacity-50 hover:opacity-100 border border-white/30 px-2 py-1 rounded text-[10px]">
+                            ADMIN
+                        </a>
+                    <% } %>
+                </li>
+            </ul>
+
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-button" class="text-yellow-400 focus:outline-none">
+                    <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-blue-900 border-t border-white/10 mt-4 pb-4 transition-all duration-300">
+            <ul class="flex flex-col space-y-4 px-4 pt-4 text-sm font-bold uppercase">
+                <li><a href="/" class="block py-2 hover:text-yellow-400">Beranda</a></li>
+                <li><a href="/paket" class="block py-2 hover:text-yellow-400">Paket Internet</a></li>
+                <li><a href="/jangkauan" class="block py-2 hover:text-yellow-400">Jangkauan</a></li>
+                <li><a href="/kegiatan" class="block py-2 hover:text-yellow-400">Kegiatan</a></li>
+                <li><a href="/about" class="block py-2 hover:text-yellow-400">Tentang</a></li>
+                <li><a href="/daftar" class="block py-3 bg-yellow-400 text-blue-900 rounded-lg text-center font-black">Daftar Sekarang</a></li>
+                
+                <li class="pt-4 border-t border-white/10">
+                    <% if (locals.isAdmin) { %>
+                        <div class="flex flex-col gap-2">
+                            <a href="/admin-dashboard" class="block py-2 text-center border border-yellow-400 text-yellow-400 rounded">DASHBOARD ADMIN</a>
+                            <a href="/logout" class="block py-2 text-center text-red-400">LOGOUT</a>
+                        </div>
+                    <% } else { %>
+                        <a href="/login" class="block py-2 text-center opacity-50">LOGIN ADMIN</a>
+                    <% } %>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <script>
+        // Logika Toggle Menu Mobile
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('menu-icon');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />';
+            } else {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+            }
+        });
+    </script>

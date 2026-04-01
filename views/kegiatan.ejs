@@ -1,0 +1,82 @@
+<%- include('partials/header') %>
+
+<main class="container mx-auto mt-12 px-4 mb-20">
+    <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-black text-blue-900 mb-4 tracking-tight">
+            GALERI KEGIATAN
+        </h1>
+        <p class="text-slate-500 max-w-2xl mx-auto text-lg">
+            Dokumentasi tim Sanwanay Network saat melakukan perluasan jaringan dan pemeliharaan rutin di wilayah Anda.
+        </p>
+        <div class="w-24 h-1 bg-blue-600 mx-auto mt-6 rounded-full"></div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        
+        <% if (activities && activities.length > 0) { %>
+            <% activities.forEach(item => { %>
+                <div class="group bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    
+                    <div class="relative overflow-hidden h-72 bg-slate-100">
+                        <% if (item.foto) { %>
+                            <img src="<%= item.foto %>" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                                 alt="<%= item.judul %>"
+                                 onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Tidak+Ditemukan'">
+                        <% } else { %>
+                            <div class="flex items-center justify-center h-full text-slate-400">Gambar Kosong</div>
+                        <% } %>
+                        
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-blue-600/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                                Sanwanay Tech
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                </svg>
+                            </span>
+                            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                                <%= item.lokasi || 'Lokasi Belum Diatur' %>
+                            </span>
+                        </div>
+                        
+                        <h3 class="font-extrabold text-slate-800 text-xl leading-tight mb-3 group-hover:text-blue-600 transition-colors uppercase">
+                            <%= item.judul %>
+                        </h3>
+
+                        <p class="text-slate-500 text-sm mb-6 leading-relaxed line-clamp-3">
+                            <%= item.deskripsi || 'Tidak ada deskripsi untuk kegiatan ini.' %>
+                        </p>
+
+                        <div class="flex items-center justify-between pt-5 border-t border-slate-50">
+                            <span class="text-blue-600 font-bold text-[11px] tracking-tighter">#SanwanayUpdate</span>
+                            <div class="flex -space-x-2">
+                                <div class="w-7 h-7 rounded-full bg-slate-200 border-2 border-white"></div>
+                                <div class="w-7 h-7 rounded-full bg-blue-100 border-2 border-white flex items-center justify-center text-[8px] font-bold text-blue-600">S</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="col-span-full py-20 text-center">
+                <div class="bg-slate-50 inline-block p-10 rounded-[3rem] border border-dashed border-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-slate-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p class="text-slate-400 font-bold italic text-xl">Belum ada dokumentasi kegiatan nih, Bro.</p>
+                    <p class="text-slate-400 text-sm mt-2">Pantau terus website Sanwanay Network!</p>
+                </div>
+            </div>
+        <% } %>
+
+    </div>
+</main>
+
+<%- include('partials/footer') %>

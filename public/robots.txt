@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /admin-dashboard
+Disallow: /logout
+Disallow: /hapus-kegiatan/
+Disallow: /hapus-pendaftar/
+
+Sitemap: https://sanwanay.my.id/sitemap.xml
