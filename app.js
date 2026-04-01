@@ -70,8 +70,8 @@ app.get('/logout', (req, res) => {
 // --- FITUR KEGIATAN ---
 app.get('/kegiatan', async (req, res) => {
     try {
-        const listKegiatan = await db.all('SELECT * FROM kegiatan ORDER BY id DESC');
-        res.render('kegiatan', { activities: listKegiatan || [] });
+        const listKegiatan = db ? await db.all('SELECT * FROM kegiatan ORDER BY id DESC') : [];
+        res.render('kegiatan', { activities: listKegiatan });
     } catch (err) {
         res.render('kegiatan', { activities: [] });
     }
@@ -81,8 +81,8 @@ app.get('/kegiatan', async (req, res) => {
 app.get('/admin-dashboard', async (req, res) => {
     if (!req.session.isAdmin) return res.redirect('/login');
     try {
-        const pendaftar = await db.all('SELECT * FROM pendaftar ORDER BY id DESC');
-        const activities = await db.all('SELECT * FROM kegiatan ORDER BY id DESC');
+        const pendaftar = db ? await db.all('SELECT * FROM pendaftar ORDER BY id DESC') : [];
+        const activities = db ? await db.all('SELECT * FROM kegiatan ORDER BY id DESC') : [];
         res.render('admin-dashboard', { pendaftar, activities });
     } catch (err) {
         res.render('admin-dashboard', { pendaftar: [], activities: [] });
@@ -135,6 +135,7 @@ app.get('/hapus-kegiatan/:id', async (req, res, next) => {
 
 app.post('/proses-daftar', upload.single('ktp'), async (req, res, next) => {
     try {
+        if (!db) throw new Error("Database belum siap. Coba lagi dalam beberapa saat.");
         const { nama, phone, paket, alamat } = req.body;
         const ktp = req.file ? `/uploads/ktp/${req.file.filename}` : '';
         await db.run('INSERT INTO pendaftar (nama, phone, paket, alamat, ktp) VALUES (?, ?, ?, ?, ?)', [nama, phone, paket, alamat, ktp]);
@@ -147,45 +148,69 @@ app.post('/proses-daftar', upload.single('ktp'), async (req, res, next) => {
 // --- ERROR HANDLER ---
 app.use((err, req, res, next) => {
     console.error("❌ Terjadi Error:", err.message);
-    res.status(500).send("Waduh, ada masalah di server kita. Coba lagi nanti ya, Bro!");
+    const detail = process.env.NODE_ENV === 'development' || process.env.VERCEL ? `: ${err.message}` : '';
+    res.status(500).send(`Waduh, ada masalah di server kita${detail}. Coba lagi nanti ya, Bro!`);
 });
 
 const PORT = process.env.PORT || 3005;
 
+// DATABASE INITIALIZATION (SERVERLESS FRIENDLY)
+let dbPromise = null;
+
 async function startServer() {
-    try {
-        db = await open({
-            filename: path.join(__dirname, 'database.db'),
-            driver: sqlite3.Database
-        });
+    if (dbPromise) return dbPromise;
+    
+    dbPromise = (async () => {
+        try {
+            // Gunakan folder /tmp di Vercel karena read-only di folder lain
+            const dbPath = process.env.VERCEL ? path.join('/tmp', 'database.db') : path.join(__dirname, 'database.db');
+            
+            db = await open({
+                filename: dbPath,
+                driver: sqlite3.Database
+            });
 
-        await db.exec(`CREATE TABLE IF NOT EXISTS pendaftar (
-            id INTEGER PRIMARY KEY AUTOINCREMENT, 
-            nama TEXT, 
-            phone TEXT, 
-            paket TEXT, 
-            alamat TEXT, 
-            ktp TEXT
-        )`);
+            await db.exec(`CREATE TABLE IF NOT EXISTS pendaftar (
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                nama TEXT, 
+                phone TEXT, 
+                paket TEXT, 
+                alamat TEXT, 
+                ktp TEXT
+            )`);
 
-        await db.exec(`CREATE TABLE IF NOT EXISTS kegiatan (
-            id INTEGER PRIMARY KEY AUTOINCREMENT, 
-            judul TEXT, 
-            lokasi TEXT, 
-            deskripsi TEXT, 
-            foto TEXT
-        )`);
+            await db.exec(`CREATE TABLE IF NOT EXISTS kegiatan (
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                judul TEXT, 
+                lokasi TEXT, 
+                deskripsi TEXT, 
+                foto TEXT
+            )`);
 
-        console.log("✅ Database Sanwanay Siap!");
-        
-        if (require.main === module) {
-            app.listen(PORT, () => console.log(`✅ Sanwanay ON di http://localhost:${PORT}`));
+            console.log("✅ Database Sanwanay Siap!");
+            return db;
+        } catch (error) {
+            console.error("❌ Gagal memulai database:", error.message);
+            // Jangan crash server, biarkan request jalan (UI tetap muncul)
+            return null;
         }
-    } catch (error) {
-        console.error("❌ Gagal memulai server:", error.message);
-    }
+    })();
+
+    return dbPromise;
 }
 
-startServer();
+// Middleware untuk memastikan database siap sebelum request diproses
+app.use(async (req, res, next) => {
+    if (!db) {
+        await startServer();
+    }
+    next();
+});
+
+if (require.main === module) {
+    startServer().then(() => {
+        app.listen(PORT, () => console.log(`✅ Sanwanay ON di http://localhost:${PORT}`));
+    });
+}
 
 module.exports = app;
